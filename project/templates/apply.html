@@ -1,0 +1,20 @@
+{% extends 'nav.html' %}
+{% load static %}
+{% block title%}
+<title>Home</title>
+{% endblock %}
+
+{% block contents%}
+<div class="album py-5 bg-light">
+    <div class="container">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <table>
+                {{form.as_table}}
+            </table>
+            <br>
+            <input class="btn btn-dark" type="submit" value="제출하기">
+        </form>
+    </div>
+</div>
+{% endblock %}

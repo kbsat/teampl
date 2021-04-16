@@ -1,0 +1,49 @@
+{% extends 'nav.html' %}
+{% load static %}
+{% block title%}
+<title>Home</title>
+{% endblock %}
+
+{% block contents%}
+<div class="jumbotron" style="background:url({% static 'indexImage.jpg' %}) top center; 
+    background-color: rgba(255,255,255,0.5);
+        width: 100%;
+        background-size: cover;
+        background-blend-mode: lighten;
+        font-weight:bold;
+      ">
+    <h1 class=" display-3 bold" style="font-size : 120px">Teampl</h1>
+    <p class="lead">Teampl을 이용해서 함께 작업할 팀원들을 구해보세요!</p>
+    <hr class="my-4">
+    <p>Teampl은 팀 프로젝트를 위한 아이디어를 제시하고 참가할 팀원들을 모집하는 사이트입니다.
+    </p>
+</div>
+<div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
+        <div class="col-md-4">
+            <h2>기획자라면</h2>
+
+            <p>만약 아이디어를 가지고 있으신 기획자라면 지금 팀을 모집해보세요. Teampl에는 여러분과 동행할 팀원을 구할 수 있도록
+                다른 사람들에게 글을 작성할 수 있습니다. 여러분의 아이디어를 실현시키세요! </p>
+
+        </div>
+        <div class="col-md-4">
+            <h2>팀을 구한다면</h2>
+            <p>여러분이 관심이 있는 아이디어를 찾고 참가해보세요! 여러분의 커리어와 개발 능력을 향상시킬 수 있는 좋은 기회입니다.
+
+            </p>
+
+        </div>
+        <div class="col-md-4">
+            <p><a class="btn btn-secondary" href="{% url 'list'%}" role="button">아이디어 탐색 »</a></p>
+        </div>
+    </div>
+
+    <hr>
+
+</div>
+
+
+
+{% endblock %}

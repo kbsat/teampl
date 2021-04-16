@@ -1,0 +1,24 @@
+{% extends 'nav.html' %}
+{% block contents %}
+
+
+
+<div class="container">
+    <br>
+    <h2>MyPage</h2>
+    <div class="row bg-faded">
+        <div class="col-md-12">
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="card card-block h-100 justify-content-center align-items-center" style="font-size: 20px;">
+                name : {{user.nickname}}<br>
+                email : {{user.email}}<br>
+                phone : {{user.phone}}<br>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+{% endblock %}

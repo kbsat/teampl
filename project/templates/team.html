@@ -1,0 +1,135 @@
+{% extends 'nav.html' %}
+{% load static %}
+{% block title%}
+<title>Home</title>
+{% endblock %}
+
+{% block contents%}
+<div class="card text-center">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <p class="nav-link">작성이 : {{project.userid.nickname}}</p>
+            </li>
+            <li class="nav-item">
+                <p class="nav-link">{{project.pub_date}}</p>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+
+        <h3 class="card-title font-weight-bolder">{{project.title}}</h3>
+
+        <br>
+        <h6>{{project.sub_title}}</h6>
+        {% if project.userid == request.user%}
+
+        {% if project.done == False%}
+        <a href="{% url 'done' project.pid %}" class="btn btn-primary" style="width: 200px;">모집 마감</a>
+        {% elif  project.done == True %}
+        <a href="{% url 'done' project.pid %}" class="btn btn-secondary" style="width: 200px;">모집 재개</a>
+        {% endif %}
+
+        {% else %}
+        <a href="#" class="btn btn-info disabled" style="width: 200px;">참가중</a>
+        {% endif %}
+
+        <br>
+        <small class="card-text">조회수 : {{project.hit}}</small>
+        <br>
+        <small class="card-text">{{project.pub_date}}</small>
+        <br>
+        <div class="btn-group">
+            <a href="{% url 'update' project.pid %}">
+                <button type="button" class="btn btn-sm btn-outline-secondary">
+                    수정
+                </button>
+            </a>
+            <form method="POST" id="delform">
+                {% csrf_token %}
+                <button type="button" onclick="button_event();" class="btn btn-sm btn-danger">
+                    삭제
+                </button>
+            </form>
+        </div>
+
+    </div>
+</div>
+<div class="card py-5 bg-white align-items-center">
+    <div class="container-md">
+        <p>{{project.body|linebreaksbr}}</p>
+        <br>
+    </div>
+</div>
+<ul class="list-group mx-5">
+    <li class="list-group-item text-center">
+        <span class="" style="font-size:20px; margin:30px"> 현 팀원</span>
+
+    </li>
+    <table class="table-striped">
+        <tbody>
+            <thead>
+                <th>팀원명</th>
+                <th>팀원 포지션</th>
+                <th>연락처</th>
+                <th>이메일</th>
+            </thead>
+            {%for item in assigns%}
+            <tr>
+                <td width=150>{{item.userid.nickname}}</td>
+                <td width=150>{{item.role}}</td>
+                <td width=150>{{item.userid.phone}}</td>
+                <td width=150>{{item.userid.email}}</td>
+
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</ul>
+
+<ul class=" list-group mx-5">
+    <li class="list-group-item text-center">
+        <span class="" style="font-size:20px; margin:30px"> 신청내역</span>
+
+    </li>
+    <table class="table-warning">
+        <tbody>
+            <thead>
+                <th>신청자</th>
+                <th>신청내용</th>
+                <th>포지션</th>
+            </thead>
+            {%for item in apply_list%}
+            <tr>
+                <td width=150>{{item.userid.nickname}}</td>
+                <td width=700>{{item.body}}</td>
+                <td width=100>{{item.role.role_name}}</td>
+                <td>
+                    <a href="{% url 'reject' project_id=project.pid apply_id=item.id %}">
+                        <input type="submit" class="float-right button btn-danger" value="거절">
+                    </a>
+                    <a href="{% url 'accept' project_id=project.pid apply_id=item.id %}">
+                        <input type="submit" class="float-right button btn-success" value="수락">
+                    </a>
+                </td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</ul>
+
+<script type="text/javascript">
+    function button_event(event) {
+        delform = document.getElementById('delform')
+        if (confirm("정말 삭제하시겠습니까??") == true) {
+            var e = window.event,
+                btn = e.target || e.srcElement;
+
+            delform.submit()
+
+        } else {   //취소
+            return;
+        }
+    }
+</script>
+{% endblock %}

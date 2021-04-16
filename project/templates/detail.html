@@ -1,0 +1,92 @@
+{% extends 'nav.html' %}
+{% load static %}
+{% block title%}
+<title>Home</title>
+{% endblock %}
+
+{% block contents%}
+<div class="card text-center">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <p class="nav-link">작성이 : {{project.userid.nickname}}</p>
+            </li>
+            <li class="nav-item">
+                <p class="nav-link">{{project.pub_date}}</p>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+
+        <h3 class="card-title font-weight-bolder">{{project.title}}</h3>
+
+        <br>
+        <h6>{{project.sub_title}}</h6>
+        {% if user.is_authenticated %}
+
+        {% if assign_check == True %}
+        <a href="#" class="btn btn-info disabled" style="width: 200px;">참가중</a>
+        {% elif project.done == False%}
+        <a href="{% url 'apply' project.pid %}" class="btn btn-primary" style="width: 200px;">참가 신청</a>
+        {% elif project.done == True%}
+        <a href="#" class="btn btn-secondary disabled" style="width: 200px;">모집 마감</a>
+        {% endif %}
+
+        {% else %}
+        <a href="#" class="btn btn-secondary disabled" style="width: 250px;">신청하려면 로그인해주세요</a>
+        {% endif %}
+        <br>
+        <small class="card-text">조회수 : {{project.hit}}</small>
+        <br>
+        <small class="card-text">{{project.pub_date}}</small>
+
+    </div>
+</div>
+<div class="card py-5 bg-white align-items-center">
+    <div class="container-md">
+        <p>{{project.body|linebreaksbr}}</p>
+        <br>
+    </div>
+</div>
+<ul class="list-group mx-5">
+    <li class="list-group-item text-center">
+
+        <form method="POST">
+            {% csrf_token %}
+            <span class="" style="font-size:20px; margin:30px"> 댓글</span>
+            <input type="text" name="comment_body" class="flex-wrap w-50 h-50">
+            <input type="submit" value="작성" style="width:55px; height:40px">
+        </form>
+    </li>
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-danger" role="alert">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    <table class="table-info">
+        <tbody>
+            {%for com in comment%}
+            <tr>
+                <th width=150>{{com.userid.nickname}}</th>
+                <td width=700>{{com.comment}}</td>
+                <td><small class="float-right">{{com.pub_date}}</small></td>
+                <td>
+                    <a href="{% url 'comdel' com.id %}">
+                        <input type="submit" class="float-right" value="삭제">
+                    </a></td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+    <!-- {%for com in comment%}
+    <li class="list-group-item">
+        <span class="" style="font-size:17px;  width:50px;"> {{com.userid.nickname}} :</span>
+        {{com.comment}}
+        <a href="{% url 'comdel' com.id %}">
+            <input type="submit" class="float-right" value="삭제">
+        </a>
+        <small class="float-right">{{com.pub_date}}</small>
+    </li>
+    {%endfor%} -->
+</ul>
+{% endblock %}

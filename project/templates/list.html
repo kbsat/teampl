@@ -1,0 +1,61 @@
+{% extends 'nav.html' %}
+{% load static %}
+{% block title%}
+<title>Home</title>
+{% endblock %}
+
+{% block contents%}
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1>팀 구하기</h1>
+        <p class="lead text-muted">
+            당신과 함께 팀을 이루고 싶은 아이디어들이 기다리고 있습니다.
+            <br>지금 확인해보세요!
+        </p>
+        <p>
+            {% if messages %}
+            {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        <a href="{% url 'post' %}" class="btn btn-primary my-2">아이디어 작성</a>
+        <!-- <a href="#" class="btn btn-secondary my-2">아이디어 보기</a> -->
+        </p>
+    </div>
+</section>
+<div class="album py-5 bg-light">
+    <div class="container">
+        <h4>카테고리</h4>
+        {% for cat in category %}
+        <a href="{% url 'catfilter' cat.cid %}"><input class="btn btn-primary my-2" type="button"
+                value="{{cat.category_name}}"></a>
+        {% endfor %}
+        <a href="{% url 'list' %}"><input class="btn btn-warning my-2" type="button" value="상관없음"></a>
+        <br>
+        <br>
+
+        <div class="row">
+            {% for project in projects %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <img src="{% static 'indeximage.jpg'%}" height="200" alt="woman_1사진" />
+                    <div class="card-body">
+                        <a href="{% url 'detail' project.pid %}">
+                            <p class="card-text p-title">
+                                {{project.title}}
+                            </p>
+                        </a>
+                        <p class="card-text">
+                            {{project.sub_title}}
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">{{project.pub_date}}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
